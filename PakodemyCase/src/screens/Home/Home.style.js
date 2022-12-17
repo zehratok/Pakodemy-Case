@@ -1,17 +1,100 @@
-import {StyleSheet} from "react-native";
-import {COLORS, FONTS, SIZES} from "../../constants/theme";
+import { StyleSheet } from "react-native";
+import { COLORS, FONTS, SIZES } from "../../constants/theme";
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.black2,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    text: {
-        ...FONTS.h3,
-        color: COLORS.lightBrown,
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  topContainer: {
+    marginLeft: SIZES.width * 0.085,
+    height: SIZES.height * 0.85,
+  },
+  profileContainer: {
+    width: SIZES.width * 0.85,
+    height: SIZES.height * 0.1,
+    marginTop: SIZES.margin * 4,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  profile: {
+    flexDirection: "row",
+  },
+  profileImage: {
+    width: SIZES.width * 0.12,
+    height: SIZES.width * 0.12,
+    marginRight: SIZES.margin * 2,
+  },
+  greetingText: {
+    color: COLORS.lightGray,
+    ...FONTS.h4,
+  },
+  notificationIcon: {
+    color: COLORS.white2,
+    fontSize: SIZES.font * 2.5,
+  },
+  searchContainer: {
+    width: SIZES.width * 0.85,
+    height: SIZES.height * 0.06,
+    marginTop: SIZES.margin,
+  },
+  subHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  subHeaderText: {
+    ...FONTS.h3,
+    color: COLORS.white,
+    height: SIZES.height * 0.05,
+  },
+  subHeaderLink: {
+    ...FONTS.body4,
+    color: COLORS.lightGray,
+    height: SIZES.height * 0.05,
+    marginRight: SIZES.width * 0.085,
+  },
+  categoryContainer: {
+    height: SIZES.height * 0.13,
+    marginTop: SIZES.margin * 2,
+  },
+  categoryListContainer: {
+    height: SIZES.height * 0.2,
+  },
+  categoryItemContainer: {
+    minWidth: SIZES.width * 0.2,
+    maxWidth: SIZES.width * 0.4,
+    height: SIZES.height * 0.055,
+    alignItems: "center",
+    borderRadius: SIZES.radius,
+    justifyContent: "center",
+    marginRight: SIZES.margin * 1.6,
+  },
+  categoryText: {
+    ...FONTS.h4,
+    color: COLORS.white,
+    paddingHorizontal: SIZES.margin,
+  },
+  popularContainer: {
+    height: SIZES.height * 0.4,
+    marginTop: SIZES.margin * 2,
+  },
+  movieListContainer: {
+    height: SIZES.height * 0.35,
+  },
+  movieItemContainer: {
+    marginRight: SIZES.margin * 2,
+  },
+  movieImage: {
+    width: SIZES.width * 0.55,
+    height: SIZES.height * 0.35,
+    borderRadius: SIZES.radius,
+  },
 
-    }
-})
-export default styles
+  text: {
+    ...FONTS.h3,
+    color: COLORS.white,
+    height: SIZES.height * 0.05,
+  },
+});
+export default styles;

@@ -1,3 +1,3 @@
 import theme, {COLORS, SIZES, FONTS} from "./theme";
-
-export default {COLORS, SIZES, FONTS, theme}
+import fakeData from "./fakeData";
+export default {COLORS, SIZES, FONTS, theme, fakeData}
