@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { Search } from "../../components";
+import { Loading, Search } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -13,6 +13,7 @@ const Home = () => {
   const movies = fakeData.movies;
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const renderProfile = () => {
     return (
       <View style={styles.profileContainer}>
@@ -112,19 +113,25 @@ const Home = () => {
   };
 
   const renderComponent = () => {
-    if (search.length === 0) {
+    if (loading) {
       return (
-        <>
-          {renderCategory()}
-          {renderPopular()}
-        </>
+        <Loading />
       );
     } else {
-      return (
-        <>
-          {renderSearchResult()}
-        </>
-      );
+      if (search.length === 0) {
+        return (
+          <>
+            {renderCategory()}
+            {renderPopular()}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {renderSearchResult()}
+          </>
+        );
+      }
     }
   };
   return (

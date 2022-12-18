@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import styles from "./Details.style";
 import LinearGradient from "react-native-linear-gradient";
 import { COLORS } from "../../constants/theme";
-import { Header } from "../../components";
+import { Header, Loading } from "../../components";
 import Icon from "react-native-vector-icons/Ionicons";
 import Icon2 from "react-native-vector-icons/Entypo";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ const Details = ({ route, navigation }) => {
     const movieId = movie.imdbID;
     const shownMovies = useSelector(state => state.shownMoviesReducer.movies.reverse());
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
       return () => {
@@ -85,11 +86,13 @@ const Details = ({ route, navigation }) => {
       <LinearGradient colors={[COLORS.black, COLORS.darkGray]} style={styles.container}>
         <Header text="Details" leftIcon="chevron-back" rightIcon="share-social-outline"
                 onPressLeft={() => navigation.goBack()} />
-        <ScrollView style={styles.scrollContainer}>
-          {renderMovieDetails()}
-          <Text style={styles.subText}>Recently reviewed movies</Text>
+        {loading ? <Loading /> : (
+          <ScrollView style={styles.scrollContainer}>
+            {renderMovieDetails()}
+            <Text style={styles.subText}>Recently reviewed movies</Text>
             {renderShownMovies()}
-        </ScrollView>
+          </ScrollView>
+        )}
       </LinearGradient>
     );
   }
