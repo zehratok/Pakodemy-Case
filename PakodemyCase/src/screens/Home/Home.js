@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { TextInput } from "../../components";
+import { Search } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -12,6 +12,7 @@ const Home = () => {
   const categories = fakeData.categories;
   const movies = fakeData.movies;
   const [selectedCategory, setSelectedCategory] = useState(1);
+  const [search, setSearch] = useState("");
   const renderProfile = () => {
     return (
       <View style={styles.profileContainer}>
@@ -26,16 +27,40 @@ const Home = () => {
           <Icon name="ios-notifications" style={styles.notificationIcon} />
         </TouchableOpacity>
       </View>
-
     );
   };
+
   const renderSearch = () => {
     return (
       <View style={styles.searchContainer}>
-        <TextInput icon="search" placeholder="Search" />
+        <Search onSearchEnter={(newSearch) => {
+          setSearch(newSearch);
+        }} />
       </View>
     );
   };
+  const renderSearchResult = () => {
+    return (
+      <View style={styles.searchResultContainer}>
+        <FlatList
+          data={movies}
+          keyExtractor={item => `${item.id}`}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.searchResultListContainer}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.searchResultItemContainer} onPress={() => {
+              navigation.navigate("Details", { item });
+            }}>
+              <Image source={{ uri: item.Poster }} style={styles.searchResultImage} />
+              <Text style={styles.searchResultItemTitle}>{item.Title}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    );
+  };
+
   const renderCategory = () => {
     return (
       <View style={styles.categoryContainer}>
@@ -46,7 +71,7 @@ const Home = () => {
           keyExtractor={item => `${item.id}`}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.categoryListContainer}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               style={[styles.categoryItemContainer, {
                 backgroundColor: selectedCategory === item.id ? COLORS.blue : COLORS.darkGray,
@@ -73,7 +98,7 @@ const Home = () => {
           keyExtractor={item => `${item.id}`}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.movieListContainer}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.movieItemContainer} onPress={() => {
               navigation.navigate("Details", { item });
@@ -86,12 +111,27 @@ const Home = () => {
     );
   };
 
+  const renderComponent = () => {
+    if (search.length === 0) {
+      return (
+        <>
+          {renderCategory()}
+          {renderPopular()}
+        </>
+      );
+    } else {
+      return (
+        <>
+          {renderSearchResult()}
+        </>
+      );
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       {renderProfile()}
       {renderSearch()}
-      {renderCategory()}
-      {renderPopular()}
+      {renderComponent()}
     </SafeAreaView>
   );
 };

@@ -38,6 +38,36 @@ const styles = StyleSheet.create({
     height: SIZES.height * 0.06,
     marginTop: SIZES.margin,
   },
+  searchResultContainer: {
+    width: SIZES.width * 0.85,
+    height: SIZES.height * 0.6,
+    marginTop: SIZES.margin,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  searchResultListContainer: {
+    width: SIZES.width * 0.85,
+    alignItems: "center",
+  },
+  searchResultItemContainer: {
+    width: SIZES.width * 0.85,
+    marginTop: SIZES.margin,
+    alignSelf: "center",
+  },
+  searchResultImage: {
+    alignSelf: "center",
+    width: SIZES.width * 0.5,
+    height: SIZES.height * 0.4,
+    borderRadius: SIZES.radius,
+  },
+  searchResultItemTitle: {
+    height: SIZES.height * 0.05,
+    marginTop: SIZES.margin,
+    width: SIZES.width * 0.85,
+    ...FONTS.h5,
+    color: COLORS.yellow,
+    textAlign: "center",
+  },
   subHeaderContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
