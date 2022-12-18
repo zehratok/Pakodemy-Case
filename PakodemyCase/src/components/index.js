@@ -1,4 +1,5 @@
+import Header from "./Header";
 import TabButton from "./TabButton";
 import TextInput from "./TextInput";
 
-export { TabButton, TextInput };
+export { Header, TabButton, TextInput };

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "../../components";
+import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import fakeData from "../../constants/fakeData";
 import styles from "./Home.style";
 
 const Home = () => {
+  const navigation = useNavigation();
   const categories = fakeData.categories;
   const movies = fakeData.movies;
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -74,13 +76,12 @@ const Home = () => {
           renderItem={({ item, index }) => (
             <TouchableOpacity
               style={styles.movieItemContainer} onPress={() => {
-              console.log("movie item clicked");
+              navigation.navigate("Details", { item });
             }}>
               <Image source={{ uri: item.Poster }} style={styles.movieImage} />
             </TouchableOpacity>
           )}
         />
-
       </View>
     );
   };
