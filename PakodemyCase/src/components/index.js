@@ -1,4 +1,4 @@
-import TabContent from "./TabContent";
+import TabButton from "./TabButton";
 import TextInput from "./TextInput";
 
-export { TabContent, TextInput };
+export { TabButton, TextInput };

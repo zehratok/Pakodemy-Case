@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { TabContent, TextInput } from "../../components";
+import { TextInput } from "../../components";
 import { COLORS } from "../../constants/theme";
-import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 import fakeData from "../../constants/fakeData";
 import styles from "./Home.style";
@@ -88,15 +87,10 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={[COLORS.black, COLORS.darkGray]} style={styles.container}>
-        <View style={styles.topContainer}>
-          {renderProfile()}
-          {renderSearch()}
-          {renderCategory()}
-          {renderPopular()}
-        </View>
-        <TabContent screenName="Home" />
-      </LinearGradient>
+      {renderProfile()}
+      {renderSearch()}
+      {renderCategory()}
+      {renderPopular()}
     </SafeAreaView>
   );
 };

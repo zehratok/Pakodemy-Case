@@ -3,12 +3,7 @@ import { COLORS, FONTS, SIZES } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-  },
-  topContainer: {
-    marginLeft: SIZES.width * 0.085,
-    height: SIZES.height * 0.85,
   },
   profileContainer: {
     width: SIZES.width * 0.85,
@@ -29,6 +24,11 @@ const styles = StyleSheet.create({
     color: COLORS.lightGray,
     ...FONTS.h4,
   },
+  text: {
+    ...FONTS.h3,
+    color: COLORS.white,
+    height: SIZES.height * 0.05,
+  },
   notificationIcon: {
     color: COLORS.white2,
     fontSize: SIZES.font * 2.5,
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   subHeaderText: {
+    marginLeft: SIZES.width * 0.085,
     ...FONTS.h3,
     color: COLORS.white,
     height: SIZES.height * 0.05,
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
     marginTop: SIZES.margin * 2,
   },
   categoryListContainer: {
+    paddingLeft: SIZES.width * 0.085,
     height: SIZES.height * 0.2,
   },
   categoryItemContainer: {
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
     marginTop: SIZES.margin * 2,
   },
   movieListContainer: {
+    paddingLeft: SIZES.width * 0.085,
     height: SIZES.height * 0.35,
   },
   movieItemContainer: {
@@ -91,10 +94,5 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
   },
 
-  text: {
-    ...FONTS.h3,
-    color: COLORS.white,
-    height: SIZES.height * 0.05,
-  },
 });
 export default styles;
