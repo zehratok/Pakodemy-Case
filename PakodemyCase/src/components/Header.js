@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { COLORS, SIZES, FONTS } from "../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const Header = ({ leftIcon, onPressLeft, rightIcon, text }) => {
+const Header = memo(({ leftIcon, onPressLeft, rightIcon, text }) => {
   return (
     <View style={styles.container}>
       {leftIcon ? (
@@ -21,7 +21,7 @@ const Header = ({ leftIcon, onPressLeft, rightIcon, text }) => {
       }
     </View>
   );
-};
+});
 export default Header;
 
 const styles = StyleSheet.create({

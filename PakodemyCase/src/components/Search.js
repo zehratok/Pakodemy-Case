@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { TextInput } from "./index";
 
-const Search = ({onSearchEnter}) => {
+const Search = memo(({ onSearchEnter }) => {
   const [search, setSearch] = useState("");
   return (
     <View style={styles.container}>
@@ -14,10 +14,11 @@ const Search = ({onSearchEnter}) => {
         onEndEditing={() => {
           onSearchEnter(search);
         }}
+
       />
     </View>
   );
-};
+});
 export default Search;
 
 const styles = StyleSheet.create({

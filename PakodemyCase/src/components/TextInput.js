@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { COLORS, FONTS, SIZES } from "../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const Input = ({ icon, placeholder, value, onChangeText, onEndEditing }) => {
+const Input = memo(({ icon, placeholder, value, onChangeText, onEndEditing }) => {
   return (
     <View style={styles.container}>
       <Icon name={icon} style={styles.icon} />
@@ -17,7 +17,7 @@ const Input = ({ icon, placeholder, value, onChangeText, onEndEditing }) => {
       />
     </View>
   );
-};
+});
 export default Input;
 
 const styles = StyleSheet.create({

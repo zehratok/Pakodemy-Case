@@ -99,6 +99,17 @@ const styles = StyleSheet.create({
     ...FONTS.body3,
     color: COLORS.black2,
   },
+  errorContainer: {
+    width: SIZES.width * 0.85,
+    height: SIZES.height * 0.6,
+    justifyContent: "center",
+    alignSelf: "center"
+  },
+  errorText: {
+    color: COLORS.lightBrown,
+    ...FONTS.h3,
+    textAlign: "center",
+  },
 
 });
 export default styles;

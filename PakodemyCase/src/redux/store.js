@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
-import shownMoviesReducer from './shownMoviesReducer';
-import {createStore} from 'redux';
+import movieIdReducer from "./movieIdReducer";
+import shownMoviesReducer from "./shownMoviesReducer";
+import { createStore } from "redux";
 
 const store = createStore(combineReducers({
-  shownMoviesReducer: shownMoviesReducer
+  shownMoviesReducer: shownMoviesReducer,
+  movieIdReducer: movieIdReducer,
 }));
 
 export default store;
