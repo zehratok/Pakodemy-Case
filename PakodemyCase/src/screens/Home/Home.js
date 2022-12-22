@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { Loading, Search } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../constants/theme";
@@ -17,7 +17,9 @@ const Home = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
@@ -28,7 +30,7 @@ const Home = () => {
   const handlePopularMovies = async () => {
     setLoading(true);
     await axios
-      .get(`${apiUrl}s=marvel&page=2`)
+      .get(`${apiUrl}s=batman&page=1`)
       .then((res) => {
         setMovies(res.data.Search);
       })
@@ -39,25 +41,46 @@ const Home = () => {
         setLoading(false);
       });
   };
-  const handleSearch = async (s) => {
+
+  const handlePagination = useCallback(async (s) => {
+    setLoadingMore(true);
+    if(page === 1) {
+     return null;
+    }
+    await axios
+      .get(`${apiUrl}s=${s}&page=${page}`)
+      .then((res) => {
+        setSearchResult([...searchResult, ...res.data.Search]);
+        console.log("page2", page);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoadingMore(false);
+      });
+  }, [page]);
+
+  const handleSearch = useCallback(async (s) => {
     setLoading(true);
-    await axios.get(`${apiUrl}s=${s}`)
+    console.log("search", s);
+    await axios.get(`${apiUrl}s=${s}&page=1`)
       .then(res => {
-        if (res.data.Response === "True") {
-          setError(null);
-          setSearchResult(res.data.Search);
+        setError(null);
+        if (res.data.Search.length === 0) {
+          setError("No results found");
         } else {
-          setSearchResult([]);
-          setError("No result found");
+          setSearchResult(res.data.Search);
         }
       })
       .catch(err => {
-        console.log(err);
+        setSearchResult([]);
+        setError("No results found");
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [search]);
   const handleGetDetails = (id) => {
     dispatch({ type: "SET_ID", payload: id });
     navigation.navigate("Details");
@@ -85,9 +108,20 @@ const Home = () => {
       <View style={styles.searchContainer}>
         <Search onSearchEnter={(newSearch) => {
           setSearch(newSearch);
+          setPage(1)
+          setLoading(true);
           handleSearch(newSearch);
         }} />
       </View>
+    );
+  };
+
+  const footerIndicator = () => {
+    return (
+      loadingMore ?
+        <View style={styles.footerIndicator}>
+          <ActivityIndicator size="large" color={COLORS.white} />
+        </View> : null
     );
   };
   const renderSearchResult = () => {
@@ -96,9 +130,13 @@ const Home = () => {
         {error ? <Text style={styles.text}>{error}</Text> : (
           <FlatList
             data={searchResult}
-            keyExtractor={item => `${item?.imdbID}`}
+            keyExtractor={item => item.imdbID}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.searchResultListContainer}
+            onEndReached={() => {
+              setPage(page + 1);
+              handlePagination(search);
+            }}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.searchResultItemContainer} onPress={() => {
@@ -112,6 +150,7 @@ const Home = () => {
                 <Text style={styles.searchResultItemTitle}>{item?.Title}</Text>
               </TouchableOpacity>
             )}
+            ListFooterComponent={footerIndicator}
           />
         )}
       </View>
