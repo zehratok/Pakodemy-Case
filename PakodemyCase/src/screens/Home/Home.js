@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+  RefreshControl, ScrollView,
+} from "react-native";
 import { Loading, Search } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "../../constants/theme";
@@ -21,16 +30,29 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = React.useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     handlePopularMovies();
   }, []);
 
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setLoading(true);
+    wait(2000).then(() => {
+      setRefreshing(false);
+      setLoading(false);
+    });
+
+  }, []);
+
   const handlePopularMovies = async () => {
     setLoading(true);
-    await axios
-      .get(`${apiUrl}s=batman&page=1`)
+    await axios.get(`${apiUrl}s=batman&page=1`)
       .then((res) => {
         setMovies(res.data.Search);
       })
@@ -44,14 +66,12 @@ const Home = () => {
 
   const handlePagination = useCallback(async (s) => {
     setLoadingMore(true);
-    if(page === 1) {
-     return null;
+    if (page === 1) {
+      return null;
     }
-    await axios
-      .get(`${apiUrl}s=${s}&page=${page}`)
+    await axios.get(`${apiUrl}s=${s}&page=${page}`)
       .then((res) => {
         setSearchResult([...searchResult, ...res.data.Search]);
-        console.log("page2", page);
       })
       .catch((err) => {
         console.log(err);
@@ -108,7 +128,7 @@ const Home = () => {
       <View style={styles.searchContainer}>
         <Search onSearchEnter={(newSearch) => {
           setSearch(newSearch);
-          setPage(1)
+          setPage(1);
           setLoading(true);
           handleSearch(newSearch);
         }} />
@@ -232,11 +252,13 @@ const Home = () => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      {renderProfile()}
-      {renderSearch()}
-      {renderComponent()}
-    </SafeAreaView>
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <SafeAreaView style={styles.container}>
+        {renderProfile()}
+        {renderSearch()}
+        {renderComponent()}
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 export default Home;
